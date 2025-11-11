@@ -1,0 +1,44 @@
+name: Linux
+permissions:
+  contents: write
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  create:
+    tags:
+      - v*
+jobs:
+  ubuntu:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+        ref: master
+    - name: Build tdlib for Ubuntu
+      run: /bin/bash build-linux.sh
+    - name: Package tdlib artifacts
+      env:
+        OS_NAME: ${{ runner.os }}
+      run: |
+        set -e
+        ARCH=$(uname -m)
+        echo "ARCH=$ARCH" >> $GITHUB_ENV
+        if [ -d tdlib ]; then
+          ARTIFACT_DIR=tdlib
+        elif [ -d td/tdlib ]; then
+          ARTIFACT_DIR=td/tdlib
+        else
+          echo "Artifact directory not found" && ls -la && exit 1
+        fi
+        TAR_NAME="tdlib-${OS_NAME}-${ARCH}.tar.gz"
+        tar -czf "$TAR_NAME" -C "$(dirname "$ARTIFACT_DIR")" "$(basename "$ARTIFACT_DIR")"
+        echo "PACKAGE_FILE=$TAR_NAME" >> $GITHUB_ENV
+    - name: Publish release asset
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.ref }}
+        files: ${{ env.PACKAGE_FILE }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

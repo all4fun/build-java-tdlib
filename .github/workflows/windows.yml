@@ -1,0 +1,42 @@
+name: Windows
+permissions:
+  contents: write
+on:
+  create:
+    tags:
+      - v*-windows
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: Build tdlib for windows
+      run: /bin/bash build-windows.sh
+    - name: Package tdlib artifacts
+      shell: bash
+      env:
+        OS_NAME: ${{ runner.os }}
+      run: |
+        set -e
+        ARCH=$(uname -m)
+        echo "ARCH=$ARCH" >> $GITHUB_ENV
+        if [ -d tdlib ]; then
+          ARTIFACT_DIR=tdlib
+        elif [ -d td/tdlib ]; then
+          ARTIFACT_DIR=td/tdlib
+        else
+          echo "Artifact directory not found" && ls -la && exit 1
+        fi
+        TAR_NAME="tdlib-${OS_NAME}-${ARCH}.tar.gz"
+        tar -czf "$TAR_NAME" -C "$(dirname "$ARTIFACT_DIR")" "$(basename "$ARTIFACT_DIR")"
+        echo "PACKAGE_FILE=$TAR_NAME" >> $GITHUB_ENV
+    - name: Publish release asset
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.ref }}
+        files: ${{ env.PACKAGE_FILE }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
