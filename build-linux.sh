@@ -4,8 +4,8 @@
 # docs: https://tdlib.github.io/td/build.html?language=Java
 
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install make git zlib1g-dev libssl-dev gperf php-cli cmake default-jdk g++
+sudo apt-get upgrade -y
+sudo apt-get install make git zlib1g-dev libssl-dev gperf php-cli cmake default-jdk g++ -y
 git clone https://github.com/tdlib/td.git
 cd td
 php SplitSource.php
