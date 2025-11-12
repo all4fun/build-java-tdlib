@@ -7,7 +7,7 @@
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install gperf cmake openssl coreutils
 brew install openjdk
-git clone https://github.com/tdlib/td.git
+git clone --branch master https://github.com/tdlib/td.git
 cd td
 rm -rf build
 mkdir build

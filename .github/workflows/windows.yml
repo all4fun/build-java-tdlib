@@ -10,9 +10,9 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 1
+        fetch-depth: 0
     - name: Build tdlib for windows
       run: /bin/bash build-windows.sh
     - name: Package tdlib artifacts

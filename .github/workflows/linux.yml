@@ -12,10 +12,9 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 1
-        ref: master
+        fetch-depth: 0
     - name: Build tdlib for Ubuntu
       run: /bin/bash build-linux.sh
     - name: Package tdlib artifacts

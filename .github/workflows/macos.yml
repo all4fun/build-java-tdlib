@@ -14,10 +14,9 @@ jobs:
     - name: Install coreutils
       run: brew install coreutils
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 1
-        ref: master
+        fetch-depth: 0
     - name: Build tdlib for mac os
       run: /bin/bash build-macos.sh
     - name: Package tdlib artifacts
@@ -44,4 +43,3 @@ jobs:
         files: ${{ env.PACKAGE_FILE }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

@@ -6,7 +6,7 @@
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install make git zlib1g-dev libssl-dev gperf php-cli cmake default-jdk g++ -y
-git clone https://github.com/tdlib/td.git
+git clone --branch master https://github.com/tdlib/td.git
 cd td
 php SplitSource.php
 rm -rf build

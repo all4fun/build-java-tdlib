@@ -3,9 +3,9 @@
 # date: 2025-11-11
 # docs: https://tdlib.github.io/td/build.html?language=Java
 
-git clone https://github.com/tdlib/td.git
+git clone --branch master https://github.com/tdlib/td.git
 cd td
-git clone https://github.com/Microsoft/vcpkg.git
+git clone --branch master https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 git checkout bc3512a509f9d29b37346a7e7e929f9a26e66c7e
 ./bootstrap-vcpkg.bat
