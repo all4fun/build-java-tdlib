@@ -1,4 +1,4 @@
-# build-java-tdlib
+# build-tdlib
 
 构建 TDLib 的 Java/JNI 绑定，支持 Windows / macOS / Linux
 
